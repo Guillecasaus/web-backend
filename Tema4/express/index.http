@@ -1,0 +1,8 @@
+GET http://localhost:3000/api/cursos/programacion/python?ordenar=vistas HTTP/1.1
+Content-Type: text/plain
+
+GET http://localhost:3000/api/cursos/matematicas/algebra
+Content-Type: text/plain
+
+
+
