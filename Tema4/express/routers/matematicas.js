@@ -3,15 +3,12 @@ const { infoCursos } = require('../datos/cursos.js');
 
 const routerMatematicas = express.Router();
 
-// Middleware específico para JSON
 routerMatematicas.use(express.json());
 
-// Ruta principal de matemáticas
 routerMatematicas.get('/', (req, res) => {
     res.json(infoCursos.matematicas);
 });
 
-// Ruta con parámetro dinámico (tema)
 routerMatematicas.get('/:tema', (req, res) => {
     const tema = req.params.tema;
 
@@ -24,7 +21,6 @@ routerMatematicas.get('/:tema', (req, res) => {
     res.json(data);
 });
 
-// Ruta con tema y nivel
 routerMatematicas.get('/:tema/:nivel', (req, res) => {
     const { tema, nivel } = req.params;
 
