@@ -13,7 +13,7 @@ const UserScheme = new mongoose.Schema(
         },
         password: {
             type: String, // TODO Guardaremos el hash
-            select: flase
+            select: false
         },
         role: {
             type: String,

@@ -1,0 +1,27 @@
+    POST http://localhost:3000/api/tracks HTTP/1.1
+    Content-Type: application/json
+
+{
+    "name": "Ric",
+    "album": "Album",
+    "cover": "http://tttt.com",
+    "artist": {
+        "name": "Ric",
+        "nickname": "username",
+        "nationality": "ESP"
+    }, 
+    "duration": {
+        "start": 1, 
+        "end": 2
+    },
+    "mediaId": "60d5f9a2f7b6c914d8a9e3b0",
+    "config": {
+        "timestamp": true, 
+        "versionKey": false
+    }
+}
+
+###
+
+GET http://localhost:3000/api/tracks HTTP/1.1
+Content-Type: application/json

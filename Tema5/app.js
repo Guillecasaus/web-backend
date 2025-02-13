@@ -3,7 +3,6 @@ const cors = require("cors")
 require('dotenv').config();
 const dbConnect = require('./config/mongo')
 
-
 const app = express()
 
 app.use(cors())

@@ -3,26 +3,22 @@
  * @param {*} req
  * @param {*} res
  */
-const getItems = (req, res) => {
-    const data = ["hola", "mundo"]
-    res.send({data})
-   }
-   const getItem = (req, res) => {
-       // Implement getItem logic here
-       res.send({ message: "getItem" });
-   }
-   const createItem = (req, res) => {
-       // Implement createItem logic here
-       res.send({ message: "createItem" });
-   }
-   const updateItem = (req, res) => {
-       // Implement updateItem logic here
-       res.send({ message: "updateItem" });
-   }
-   const deleteItem = (req, res) => {
-       // Implement deleteItem logic here
-       res.send({ message: "deleteItem" });
-   }
-   module.exports = { getItems, getItem,
-   createItem, updateItem,
-   deleteItem };
+
+const { tracksModel } = require('../models')
+
+const getItems = async (req, res) => {
+    const data = await tracksModel.find({})
+    res.send(data)
+}
+const createItem = async (req, res) => {
+    const { body } = req
+    //console.log(body)
+    const data = await
+        tracksModel.create(body)
+    res.send(data)
+}
+
+module.exports = {
+    getItems,
+    createItem
+};
