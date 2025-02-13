@@ -42,7 +42,11 @@
 ###
 GET http://localhost:3000/api/users HTTP/1.1
 Content-Type: application/json
-###
 
+###
+GET http://localhost:3000/api/tracks/67add026a44a2269cbb14769 HTTP/1.1
+Content-Type: application/json
+
+###
 GET http://localhost:3000/api/tracks HTTP/1.1
 Content-Type: application/json

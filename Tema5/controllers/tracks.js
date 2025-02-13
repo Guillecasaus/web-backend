@@ -6,6 +6,12 @@
 
 const { tracksModel } = require('../models')
 
+const getItem = async (req, res) => {
+    const { id } = req.params
+    const data = await tracksModel.findOne({ _id: id })
+    res.send(data)
+}
+
 const getItems = async (req, res) => {
     const data = await tracksModel.find({})
     res.send(data)
@@ -19,6 +25,7 @@ const createItem = async (req, res) => {
 }
 
 module.exports = {
+    getItem,
     getItems,
     createItem
 };
