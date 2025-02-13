@@ -46,4 +46,4 @@ const TracksScheme = new mongoose.Schema(
     }
 )
 
-module.exports = mongoose.model("tracks", TracksScheme) // Nombre de la colección (o de la tabla en SQL)
+module.exports = mongoose.model("tracks", TracksScheme) 
