@@ -50,3 +50,16 @@ Content-Type: application/json
 ###
 GET http://localhost:3000/api/tracks HTTP/1.1
 Content-Type: application/json
+
+###
+POST http://localhost:3000/api/storage HTTP/1.1
+Content-Type: multipart/form-data; boundary=boundry
+
+--boundry
+Content-Disposition: form-data; name="image"; filename="image.jpg"
+Content-Type: image/jpp
+
+< ./image.jpg
+--boundry--
+
+###
