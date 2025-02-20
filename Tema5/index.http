@@ -57,9 +57,9 @@ Content-Type: multipart/form-data; boundary=boundry
 
 --boundry
 Content-Disposition: form-data; name="image"; filename="image.jpg"
-Content-Type: image/jpp
+Content-Type: image/jpg
 
 < ./image.jpg
 --boundry--
 
-###
+

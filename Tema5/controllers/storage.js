@@ -1,7 +1,9 @@
 const { storageModel } = require('../models')
+const { uploadToPinata } = require('../utils/handleUploadIPFS')
 const fs = require('fs')
 
 const createItem = async (req, res) => {
+    const { body, file } = req
     const id = req.params.id
     const fileBuffer = req.file.buffer
     const fileName = req.file.originalname
@@ -25,8 +27,7 @@ const updateImage = async (req, res) => {
         const pinataResponse = await uploadToPinata(fileBuffer, fileName)
         const ipfsFile = pinataResponse.IpfsHash
         const ipfs = `https://${process.env.PINATA_GATEWAY_URL}/ipfs/${ipfsFile}`
-        const data = await userModel.findOneAndUpdate({ _id: id }, { image: ipfs }, { new: true })
-        res.send(data)
+
     } catch (err) {
         console.log(err)
         res.status(500).send("ERROR_UPLOAD_COMPANY_IMAGE")
