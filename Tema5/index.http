@@ -2,9 +2,10 @@
     Content-Type: application/json
 
 {
-    "name": "Prueba",
+    "name": "Pruebadatofake",
     "album": "album",
     "cover": "http://tttt.com",
+    "dta": "fake",
     "artist": {
         "name": "Ric",
         "nickname": "username",
