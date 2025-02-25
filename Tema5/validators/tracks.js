@@ -2,7 +2,7 @@ const { check } = require("express-validator")
 const validateResults = require("../utils/handleValidator")
 const validatorCreateItem = [
     check("name").exists().notEmpty(), //.isLength(min:5, max:90)
-    check("album").exists().notEmpty(),
+    check("album").exists().notEmpty().withMessage("Album is required"),
     check("cover").exists().notEmpty(),
     check("artist").exists().notEmpty(),
     check("artist.name").exists().notEmpty(),

@@ -2,8 +2,8 @@
     Content-Type: application/json
 
 {
-    "name": "Ric",
-    "album": "Album",
+    "name": "Prueba",
+    "album": "",
     "cover": "http://tttt.com",
     "artist": {
         "name": "Ric",
