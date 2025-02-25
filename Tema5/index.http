@@ -3,7 +3,7 @@
 
 {
     "name": "Prueba",
-    "album": "",
+    "album": "album",
     "cover": "http://tttt.com",
     "artist": {
         "name": "Ric",
