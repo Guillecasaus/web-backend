@@ -9,9 +9,16 @@ const { matchedData } = require('express-validator')
 const { handleHttpError } = require('../utils/handleError')
 
 const getItem = async (req, res) => {
-    const { id } = req.params
-    const data = await tracksModel.findOne({ _id: id })
-    res.send(data)
+    try {
+        const { id } = matchedData(req); // Validación aplicada
+        const data = await tracksModel.findById(id);
+        if (!data) {
+            return handleHttpError(res, 'ITEM_NOT_FOUND', 404);
+        }
+        res.send(data);
+    } catch (err) {
+        handleHttpError(res, 'ERROR_GET_ITEM');
+    }
 }
 
 const getItems = async (req, res) => {
@@ -34,8 +41,40 @@ const createItem = async (req, res) => {
     }
 }
 
+const updateItem = async (req, res) => {
+    try {
+        const { id } = matchedData(req);
+        const body = req.body;
+        const data = await tracksModel.findByIdAndUpdate(id, body, { new: true });
+
+        if (!data) {
+            return handleHttpError(res, 'ITEM_NOT_FOUND', 404);
+        }
+
+        res.send(data);
+    } catch (err) {
+        handleHttpError(res, 'ERROR_UPDATE_ITEM');
+    }
+}
+
+const deleteItem = async (req, res) => {
+    try {
+        const { id } = matchedData(req);
+        const data = await tracksModel.delete({ _id: id });
+        if (!data) {
+            return handleHttpError(res, 'ITEM_NOT_FOUND', 404);
+        }
+
+        res.send({ message: 'Item deleted successfully', data });
+    } catch (err) {
+        handleHttpError(res, 'ERROR_DELETE_ITEM');
+    }
+}
+
 module.exports = {
     getItem,
     getItems,
-    createItem
+    createItem,
+    updateItem,
+    deleteItem
 };
