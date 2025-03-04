@@ -30,15 +30,13 @@ Content-Type: application/json
 
 
 ###
-    POST http://localhost:3000/api/users HTTP/1.1
-    Content-Type: application/json
-
-
+POST http://localhost:3000/api/users HTTP/1.1
+Content-Type: application/json
 {
-  "name": "Juan Pérez",
+  "name": "Prueba",
   "age": 30,
-  "email": "juan.perez@example.com",
-  "password": "hashedpassword123",
+  "email": "pruebaz@example.com",
+  "password": "pass1234",
   "role": "admin",
 
   "config": {
@@ -48,8 +46,28 @@ Content-Type: application/json
 }
 
 ###
+POST http://localhost:3000/api/users HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "hola",
+  "age": 30,
+  "email": "hola@example.com",
+  "password": "1234asdf",
+  "role": "user",
+  "config": {
+    "timestamp": true, 
+    "versionKey": false
+  }
+}
+
+
+###
 GET http://localhost:3000/api/users HTTP/1.1
 Content-Type: application/json
+
+###
+DELETE http://localhost:3000/api/users/67add34478030fc629ed9d84
 
 ###
 GET http://localhost:3000/api/tracks/67add026a44a2269cbb14769 HTTP/1.1
@@ -73,3 +91,34 @@ Content-Type: image/jpg
 ###
 DELETE http://localhost:3000/api/tracks/67add026a44a2269cbb14769
 
+###
+POST http://localhost:3000/api/auth/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Juan Pérezaaa",
+  "age": 40,
+  "email": "juan.perez.prueba@example.com",
+  "password": "pass1234"
+}
+
+###
+POST http://localhost:3000/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "Test User",
+  "age": 25,
+  "email": "test@example.com",
+  "password": "pass1234"
+}
+
+
+###
+POST http://localhost:3000/api/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+ "email": "test@example.com",
+ "password": "pass1234"
+}

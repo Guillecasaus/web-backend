@@ -1,6 +1,7 @@
-const { check, validationResult } = require('express-validator');
+const { check } = require("express-validator");
+const validateResults = require("../utils/handleValidator");
 
-const userValidator = [
+const validatorCreateItem = [
     check('name')
         .notEmpty().withMessage('Name is required')
         .isString().withMessage('Name must be a string'),
@@ -15,18 +16,16 @@ const userValidator = [
         .isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
     check('role')
         .optional()
-        .isIn(['user', 'admin']).withMessage('Role must be either user or admin')
+        .isIn(['user', 'admin']).withMessage('Role must be either user or admin'),
+    (req, res, next) => validateResults(req, res, next)
 ];
 
-const validateUser = (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-    next();
+const validatorGetItem = (req, res, next) => {
+    check("id").exists().notEmpty().isMongoId(),
+        (req, res, next) => validateResults(req, res, next)
 };
 
 module.exports = {
-    userValidator,
-    validateUser
+    validatorCreateItem,
+    validatorGetItem
 };

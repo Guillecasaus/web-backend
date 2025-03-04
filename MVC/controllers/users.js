@@ -7,6 +7,7 @@
 const { usersModel } = require('../models')
 const express = require("express")
 const router = express.Router()
+const { handleHttpError } = require("../utils/handleError");
 
 const getItem = async (req, res) => {
     try {
