@@ -8,6 +8,7 @@ const { usersModel } = require('../models')
 const express = require("express")
 const router = express.Router()
 const { handleHttpError } = require("../utils/handleError");
+const { matchedData } = require("express-validator");
 
 const getItem = async (req, res) => {
     try {
@@ -34,13 +35,17 @@ const getItems = async (req, res) => {
 
 const createItem = async (req, res) => {
     try {
-        const body = matchedData(req) //El dato filtrado por el modelo (probar con body=req)
-        const data = await usersModel.create(body)
-        res.send(data)
+        // Extrae los datos validados de la request
+        const body = matchedData(req);
+        // Ahora sí, crea el documento con esos datos
+        const data = await usersModel.create(body);
+        res.send(data);
     } catch (err) {
-        handleHttpError(res, 'ERROR_CREATE_ITEMS')
+        console.log(err); // Muestra el error real en la consola
+        handleHttpError(res, "ERROR_CREATE_ITEMS");
     }
-}
+};
+
 
 const updateItem = async (req, res) => {
     try {
