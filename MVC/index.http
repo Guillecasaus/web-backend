@@ -1,13 +1,12 @@
-@authToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2M2ZGZmMGE4Y2YyNDNiYzM5ZDYwN2UiLCJpYXQiOjE3NDEwODc3NjAsImV4cCI6MTc0MTA5NDk2MH0.i74lRLiHwM7tWRlZY890o1OVhS4E0nU5ZPUQUOj1rNQ    
-    
+@authToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2M5NzgwMzJjNjJhODE0MzhiMzA1OWQiLCJpYXQiOjE3NDEyNTY3MjMsImV4cCI6MTc0MTI2MzkyM30.4w8yrDKyZexGu_lAdtAOeJrzAKAA6bX7ihri392UmiY    
 POST http://localhost:3000/api/tracks HTTP/1.1
 Content-Type: application/json
+Authorization: {{authToken}}
 
 {
-    "name": "Pruebadatofake",
+    "name": "pruebaRol",
     "album": "album",
     "cover": "http://tttt.com",
-    "dta": "fake",
     "artist": {
         "name": "Ric",
         "nickname": "username",
@@ -108,7 +107,7 @@ Content-Type: application/json
 {
   "name": "Test User",
   "age": 25,
-  "email": "test@example.com",
+  "email": "test_rol@example.com",
   "password": "pass1234"
 }
 
@@ -118,7 +117,7 @@ POST http://localhost:3000/api/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
- "email": "test@example.com",
+ "email": "test_rol@example.com",
  "password": "pass1234"
 }
 
