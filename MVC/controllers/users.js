@@ -49,8 +49,7 @@ const createItem = async (req, res) => {
 
 const updateItem = async (req, res) => {
     try {
-        const { id } = matchedData(req);
-        const body = req.body;
+        const { id, ...body } = matchedData(req);
         const data = await usersModel.findByIdAndUpdate(id, body, { new: true });
 
         if (!data) {

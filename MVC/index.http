@@ -1,4 +1,4 @@
-@authToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2M5NzgwMzJjNjJhODE0MzhiMzA1OWQiLCJpYXQiOjE3NDEyNTY3MjMsImV4cCI6MTc0MTI2MzkyM30.4w8yrDKyZexGu_lAdtAOeJrzAKAA6bX7ihri392UmiY    
+@authToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2M5NzgwMzJjNjJhODE0MzhiMzA1OWQiLCJpYXQiOjE3NDEyNTc5NTgsImV4cCI6MTc0MTI2NTE1OH0.tQmSBMQ4GA6-VeTKjaZierockMWZv7Qb59ZIrr2J6Kc
 POST http://localhost:3000/api/tracks HTTP/1.1
 Content-Type: application/json
 Authorization: {{authToken}}
@@ -23,6 +23,14 @@ Authorization: {{authToken}}
     }
 }
 ###
+PATCH http://localhost:3000/api/users/67c97bfca6d15f1a5ecb7f67 HTTP/1.1
+Content-Type: application/json
+Authorization: {{authToken}}
+
+{
+  "role": "user"
+}
+
 
 ###
 
@@ -107,7 +115,7 @@ Content-Type: application/json
 {
   "name": "Test User",
   "age": 25,
-  "email": "test_rol@example.com",
+  "email": "test_rol_user@example.com",
   "password": "pass1234"
 }
 
