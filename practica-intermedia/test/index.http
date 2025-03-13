@@ -1,0 +1,56 @@
+### Registro de usuario
+POST http://localhost:3000/api/auth/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Test User",
+  "age": 25,
+  "email": "testuser@example.com",
+  "password": "pass1234"
+}
+
+### Login de usuario
+POST http://localhost:3000/api/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "testuser@example.com",
+  "password": "pass1234"
+}
+
+### Validación de email
+PUT http://localhost:3000/api/auth/validate HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer <TOKEN_OBTENIDO_DEL_REGISTRO_O_LOGIN>
+
+{
+  "code": "123456"
+}
+
+### Obtener usuario a partir del token JWT
+GET http://localhost:3000/api/users/me HTTP/1.1
+Authorization: Bearer <TOKEN_OBTENIDO_DEL_REGISTRO_O_LOGIN>
+Content-Type: application/json
+
+### Onboarding (actualizar datos personales)
+PUT http://localhost:3000/api/users/onboarding HTTP/1.1
+Authorization: Bearer <TOKEN_OBTENIDO_DEL_REGISTRO_O_LOGIN>
+Content-Type: application/json
+
+{
+  "name": "Test User Updated",
+  "lastname": "Apellido",
+  "nif": "12345678A"
+}
+
+### Actualizar logo (si ya lo tienes implementado)
+PATCH http://localhost:3000/api/users/logo HTTP/1.1
+Authorization: Bearer <TOKEN_OBTENIDO_DEL_REGISTRO_O_LOGIN>
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="logo"; filename="logo.jpg"
+Content-Type: image/jpeg
+
+< ./logo.jpg
+--boundary--
