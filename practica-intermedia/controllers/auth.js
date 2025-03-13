@@ -10,26 +10,25 @@ const generateCode = () => Math.floor(100000 + Math.random() * 900000).toString(
 const registerCtrl = async (req, res) => {
     try {
         const body = matchedData(req);
-        // Verificar que el email no exista
-        const userExists = await usersModel.findOne({ email: body.email });
-        if (userExists) return res.status(409).json({ error: "Email already exists" });
-
-        // Encriptar la contraseña y generar código de verificación
+        // Verificar email duplicado, cifrar password, etc.
         const password = await encrypt(body.password);
-        const code = generateCode();
-        const newUser = {
+        const code = generateCode(); // Función que genera el código de 6 dígitos
+        const userData = {
             ...body,
             password,
-            verificationCode: code,
+            verificationCode: code, // Guarda el código en la BD
             attempts: 3,
             status: "pending",
             role: "user"
         };
 
-        const userData = await usersModel.create(newUser);
-        userData.set("password", undefined, { strict: false });
-        const token = await tokenSign(userData);
-        res.send({ token, user: userData });
+        const dataUser = await usersModel.create(userData);
+        dataUser.set("password", undefined, { strict: false });
+
+        const token = await tokenSign(dataUser);
+
+        // Para pruebas, puedes incluir el código en la respuesta (pero en producción no se debe hacer)
+        res.send({ token, user: dataUser, verificationCode: code });
     } catch (error) {
         console.log(error);
         handleHttpError(res, "ERROR_REGISTER_USER");

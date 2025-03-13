@@ -1,11 +1,14 @@
+@authToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2QyYmIyMjBhNDk2ODg3ODRhMTE2YzMiLCJpYXQiOjE3NDE4NjM3MTQsImV4cCI6MTc0MTg3MDkxNH0.TifV6Cgn2XMJRQs7AGrNzR_9KPWfMEQGw-k4YNmVPME
+
+
 ### Registro de usuario
 POST http://localhost:3000/api/auth/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "name": "Test User",
-  "age": 25,
-  "email": "testuser@example.com",
+  "name": "Test User 3",
+  "age": 20,
+  "email": "testuser3@example.com",
   "password": "pass1234"
 }
 
@@ -21,10 +24,10 @@ Content-Type: application/json
 ### Validación de email
 PUT http://localhost:3000/api/auth/validate HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer <TOKEN_OBTENIDO_DEL_REGISTRO_O_LOGIN>
+Authorization: {{authToken}}
 
 {
-  "code": "123456"
+  "code": "652671"
 }
 
 ### Obtener usuario a partir del token JWT
