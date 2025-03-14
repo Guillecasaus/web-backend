@@ -42,19 +42,43 @@ const loginCtrl = async (req, res) => {
 
 const validateEmailCtrl = async (req, res) => {
     try {
-        // Se espera que el usuario esté identificado a través del token
-        const user = req.user;
+        const user = req.user; // El middleware authMiddleware te adjunta el usuario en req.user
+        if (!user) {
+            return handleHttpError(res, "USER_NOT_FOUND", 404);
+        }
+
         const { code } = matchedData(req);
-        if (!user) return handleHttpError(res, "USER_NOT_FOUND", 404);
+
+        // Comprobamos si el código coincide
         if (user.verificationCode === code) {
+            // Si coincide, marcamos el status como "verified"
             user.status = "verified";
             await user.save();
             return res.send({ message: "Email verified successfully" });
+        } else {
+            // Si el código no coincide, restamos intentos
+            user.attempts -= 1;
+
+            // Si ya no quedan intentos, podrías bloquear al usuario o devolver un error especial
+            if (user.attempts <= 0) {
+                // Podrías marcarlo como "blocked", o borrar el user, etc.
+                user.status = "blocked";
+                await user.save();
+                return res.status(400).json({ error: "MAX_ATTEMPTS_EXCEEDED. User blocked." });
+            }
+
+            // Guardamos la disminución de attempts
+            await user.save();
+            return res.status(400).json({
+                error: "Invalid verification code",
+                attemptsLeft: user.attempts
+            });
         }
-        return res.status(400).json({ error: "Invalid validation code" });
     } catch (error) {
+        console.log(error);
         handleHttpError(res, "ERROR_EMAIL_VALIDATION");
     }
 };
+
 
 module.exports = { registerCtrl, loginCtrl, validateEmailCtrl };
