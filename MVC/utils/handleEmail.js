@@ -28,3 +28,13 @@ const createTransporter = async () => {
     });
     return transporter;
 };
+
+const sendEmail = async (emailOptions) => {
+    try {
+        let emailTransporter = await createTransporter();
+        await emailTransporter.sendMail(emailOptions);
+    } catch (e) {
+        console.log(e)
+    }
+};
+module.exports = { sendEmail }
