@@ -115,7 +115,7 @@ Content-Type: application/json
 {
   "name": "Test User",
   "age": 25,
-  "email": "test_rol_user@example.com",
+  "email": "guille.casaus@gmail.com",
   "password": "pass1234"
 }
 

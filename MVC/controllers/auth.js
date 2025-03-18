@@ -4,6 +4,7 @@ const { encrypt, compare } = require("../utils/handlePassword");
 const { usersModel } = require("../models");
 const { tokenSign } = require("../utils/handleJwt");
 const { handleHttpError } = require("../utils/handleError");
+const { sendEmail } = require('../utils/handleMails')
 
 const registerCtrl = async (req, res) => {
     try {
@@ -21,12 +22,20 @@ const registerCtrl = async (req, res) => {
         dataUser.set("password", undefined, { strict: false });
 
         // Generamos el token
-        const data = {
-            token: await tokenSign(dataUser),
-            user: dataUser
-        };
-        res.send(data);
+        const token = await tokenSign(dataUser);
+
+        // Enviar correo de bienvenida
+        await sendEmail({
+            subject: "Welcome to our platform",
+            text: "You have successfully registered in our platform",
+            from: process.env.EMAIL,
+            to: body.email
+        });
+
+        // Devolver la respuesta con el token y el usuario
+        res.send({ token, user: dataUser });
     } catch (error) {
+        console.log(error);
         handleHttpError(res, "ERROR_REGISTER_USER");
     }
 };
