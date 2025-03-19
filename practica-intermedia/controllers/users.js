@@ -76,10 +76,36 @@ const deleteItem = async (req, res) => {
     }
 }
 
+const onboardingCtrl = async (req, res) => {
+    try {
+        // El middleware de autenticación (authMiddleware) debe asignar req.user = usuario
+        const user = req.user;
+        if (!user) {
+            return handleHttpError(res, "USER_NOT_FOUND", 404);
+        }
+
+        // Extraemos solo los campos validados del body
+        const { name, lastname, nif } = matchedData(req, { locations: ["body"] });
+
+        // Actualizamos los campos
+        user.name = name;
+        user.lastname = lastname;
+        user.nif = nif;
+
+        await user.save();
+
+        res.send({ message: "Onboarding completed", user });
+    } catch (error) {
+        console.log(error);
+        handleHttpError(res, "ERROR_ONBOARDING");
+    }
+};
+
 module.exports = {
     getItem,
     getItems,
     createItem,
     updateItem,
-    deleteItem
+    deleteItem,
+    onboardingCtrl
 };

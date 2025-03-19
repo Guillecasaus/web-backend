@@ -52,8 +52,25 @@ const validatorUpdateItem = [
     (req, res, next) => validateResults(req, res, next)
 ];
 
+const validatorOnboarding = [
+    check("name")
+        .exists().withMessage("Name is required")
+        .notEmpty().withMessage("Name cannot be empty")
+        .isString().withMessage("Name must be a string"),
+    check("lastname")
+        .exists().withMessage("Lastname is required")
+        .notEmpty().withMessage("Lastname cannot be empty")
+        .isString().withMessage("Lastname must be a string"),
+    check("nif")
+        .exists().withMessage("NIF is required")
+        .notEmpty().withMessage("NIF cannot be empty")
+        .isAlphanumeric().withMessage("NIF must be alphanumeric"),
+    (req, res, next) => validateResults(req, res, next)
+];
+
 module.exports = {
     validatorCreateItem,
     validatorGetItem,
-    validatorUpdateItem
+    validatorUpdateItem,
+    validatorOnboarding
 };

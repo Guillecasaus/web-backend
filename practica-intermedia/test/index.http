@@ -1,4 +1,4 @@
-@authToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2Q0MGFjZjliZTJjZmMxZDdhODI1MTIiLCJpYXQiOjE3NDE5NDk2NDcsImV4cCI6MTc0MTk1Njg0N30.Bc7xmh5jw0vHrGW-fSDJFSyzrPRcUpDfWbgpi65LKA4
+@authToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RiMGZkOWFmZWI0NTBkMWYyN2NiZWIiLCJpYXQiOjE3NDI0MDk2ODksImV4cCI6MTc0MjQxNjg4OX0.ED1YcWqFTndH5DPd0IRc-0Xt2j3MUgxXSscrkF7qAwU
 
 
 ### Registro de usuario
@@ -6,9 +6,9 @@ POST http://localhost:3000/api/auth/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "name": "Test User 5",
+  "name": "Guillermo",
   "age": 20,
-  "email": "testuser5@example.com",
+  "email": "guillermo@example.com",
   "password": "pass1234"
 }
 
@@ -17,7 +17,7 @@ POST http://localhost:3000/api/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "testuser@example.com",
+  "email": "guillermo@example.com",
   "password": "pass1234"
 }
 
@@ -27,24 +27,25 @@ Content-Type: application/json
 Authorization: {{authToken}}
 
 {
-  "code": "108072"
+  "code": "965510"
 }
 
 ### Obtener usuario a partir del token JWT
 GET http://localhost:3000/api/users/me HTTP/1.1
-Authorization: Bearer <TOKEN_OBTENIDO_DEL_REGISTRO_O_LOGIN>
+Authorization: {{authToken}}
 Content-Type: application/json
 
 ### Onboarding (actualizar datos personales)
-PUT http://localhost:3000/api/users/onboarding HTTP/1.1
-Authorization: Bearer <TOKEN_OBTENIDO_DEL_REGISTRO_O_LOGIN>
+PUT http://localhost:3000/api/users/onboarding
+Authorization: {{authToken}}
 Content-Type: application/json
 
 {
-  "name": "Test User Updated",
-  "lastname": "Apellido",
+  "name": "Cambio",
+  "lastname": "Casaus",
   "nif": "12345678A"
 }
+
 
 ### Actualizar logo (si ya lo tienes implementado)
 PATCH http://localhost:3000/api/users/logo HTTP/1.1
