@@ -24,7 +24,7 @@ const getItem = async (req, res) => {
 const getItems = async (req, res) => {
     try {
         const user = req.user
-        const data = await tracksModel.find({})
+        const data = await tracksModel.find().populate('mediaId')
         res.send({ data, user })
     } catch (err) {
         //Si nos sirve el de por defecto que hemos establecido, no es necesario pasar el 403

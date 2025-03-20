@@ -102,9 +102,9 @@ POST http://localhost:3000/api/auth/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "name": "Juan Pérezaaa",
+  "name": "Guillermo",
   "age": 40,
-  "email": "juan.perez.prueba@example.com",
+  "email": "guillermo@example.com",
   "password": "pass1234"
 }
 
