@@ -129,6 +129,22 @@ const companyCtrl = async (req, res) => {
     }
 };
 
+const getMeCtrl = async (req, res) => {
+    try {
+        const user = req.user; // authMiddleware asigna req.user
+        if (!user) {
+            return handleHttpError(res, "USER_NOT_FOUND", 404);
+        }
+
+        // Ocultamos la contraseña si la tienes en la instancia
+        user.password = undefined;
+        res.send({ user });
+    } catch (error) {
+        console.log(error);
+        handleHttpError(res, "ERROR_GET_ME");
+    }
+};
+
 module.exports = {
     getItem,
     getItems,
@@ -136,5 +152,6 @@ module.exports = {
     updateItem,
     deleteItem,
     onboardingCtrl,
-    companyCtrl
+    companyCtrl,
+    getMeCtrl
 };

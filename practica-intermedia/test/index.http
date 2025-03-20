@@ -1,4 +1,4 @@
-@authToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RiMGZkOWFmZWI0NTBkMWYyN2NiZWIiLCJpYXQiOjE3NDI0NjExNzEsImV4cCI6MTc0MjQ2ODM3MX0.hqIkr2YeR3ocHNwpzYlGrJEy9LscWJXF2rDSoDBig9c
+@authToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RiMGZkOWFmZWI0NTBkMWYyN2NiZWIiLCJpYXQiOjE3NDI0OTI2NDksImV4cCI6MTc0MjQ5OTg0OX0.VpR2D_Llz6CU5K0VPcBmjrkVivLM3DR94Bpv0dwWDvU
 
 ### Registro de usuario
 POST http://localhost:3000/api/auth/register HTTP/1.1
@@ -43,9 +43,9 @@ Authorization: {{authToken}}
 }
 
 ### Obtener usuario a partir del token JWT
-GET http://localhost:3000/api/users/me HTTP/1.1
+GET http://localhost:3000/api/users/me
 Authorization: {{authToken}}
-Content-Type: application/json
+
 
 ### Onboarding (actualizar datos personales)
 PUT http://localhost:3000/api/users/onboarding
