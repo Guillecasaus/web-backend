@@ -69,15 +69,15 @@ Content-Type: application/json
   "address": "Calle Falsa 123"
 }
 
-### Actualizar logo (si ya lo tienes implementado)
-###
-POST http://localhost:3000/api/storage HTTP/1.1
-Content-Type: multipart/form-data; boundary=boundry
+### Subir logo a IPFS
+PATCH http://localhost:3000/api/logo
+Authorization: {{authToken}}
+Content-Type: multipart/form-data; boundary=boundary
 
---boundry
-Content-Disposition: form-data; name="image"; filename="image.jpg"
-Content-Type: image/jpg
+--boundary
+Content-Disposition: form-data; name="logo"; filename="logo.jpg"
+Content-Type: image/jpeg
 
-< ./image.jpg
---boundry--
+< ./logo.jpg
+--boundary--
 
