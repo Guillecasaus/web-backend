@@ -68,9 +68,26 @@ const validatorOnboarding = [
     (req, res, next) => validateResults(req, res, next)
 ];
 
+const validatorCompany = [
+    check("companyName")
+        .exists().withMessage("Company name is required")
+        .notEmpty().withMessage("Company name cannot be empty")
+        .isString().withMessage("Company name must be a string"),
+    check("cif")
+        .exists().withMessage("CIF is required")
+        .notEmpty().withMessage("CIF cannot be empty")
+        .isAlphanumeric().withMessage("CIF must be alphanumeric"),
+    check("address")
+        .exists().withMessage("Address is required")
+        .notEmpty().withMessage("Address cannot be empty")
+        .isString().withMessage("Address must be a string"),
+    (req, res, next) => validateResults(req, res, next)
+];
+
 module.exports = {
     validatorCreateItem,
     validatorGetItem,
     validatorUpdateItem,
-    validatorOnboarding
+    validatorOnboarding,
+    validatorCompany
 };

@@ -1,5 +1,4 @@
-@authToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RiMGZkOWFmZWI0NTBkMWYyN2NiZWIiLCJpYXQiOjE3NDI0MDk2ODksImV4cCI6MTc0MjQxNjg4OX0.ED1YcWqFTndH5DPd0IRc-0Xt2j3MUgxXSscrkF7qAwU
-
+@authToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RiMGZkOWFmZWI0NTBkMWYyN2NiZWIiLCJpYXQiOjE3NDI0NjExNzEsImV4cCI6MTc0MjQ2ODM3MX0.hqIkr2YeR3ocHNwpzYlGrJEy9LscWJXF2rDSoDBig9c
 
 ### Registro de usuario
 POST http://localhost:3000/api/auth/register HTTP/1.1
@@ -11,6 +10,19 @@ Content-Type: application/json
   "email": "guillermo@example.com",
   "password": "pass1234"
 }
+
+
+### Registro de usuario autónomo
+POST http://localhost:3000/api/auth/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Guillermo autonomo",
+  "age": 20,
+  "email": "guillermo@gmail.com",
+  "password": "pass1234"
+}
+
 
 ### Login de usuario
 POST http://localhost:3000/api/auth/login HTTP/1.1
@@ -43,18 +55,29 @@ Content-Type: application/json
 {
   "name": "Cambio",
   "lastname": "Casaus",
-  "nif": "12345678A"
+  "nif": "12345678A",
 }
 
+### Actualizar datos de la empresa
+PATCH http://localhost:3000/api/users/company
+Authorization: {{authToken}}
+Content-Type: application/json
+
+{
+  "companyName": "MiEmpresa",
+  "cif": "B12345678",
+  "address": "Calle Falsa 123"
+}
 
 ### Actualizar logo (si ya lo tienes implementado)
-PATCH http://localhost:3000/api/users/logo HTTP/1.1
-Authorization: Bearer <TOKEN_OBTENIDO_DEL_REGISTRO_O_LOGIN>
-Content-Type: multipart/form-data; boundary=boundary
+###
+POST http://localhost:3000/api/storage HTTP/1.1
+Content-Type: multipart/form-data; boundary=boundry
 
---boundary
-Content-Disposition: form-data; name="logo"; filename="logo.jpg"
-Content-Type: image/jpeg
+--boundry
+Content-Disposition: form-data; name="image"; filename="image.jpg"
+Content-Type: image/jpg
 
-< ./logo.jpg
---boundary--
+< ./image.jpg
+--boundry--
+

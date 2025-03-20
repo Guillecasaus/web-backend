@@ -101,11 +101,40 @@ const onboardingCtrl = async (req, res) => {
     }
 };
 
+// Datos de compañía
+const companyCtrl = async (req, res) => {
+    try {
+        const user = req.user;
+        if (!user) {
+            return handleHttpError(res, "USER_NOT_FOUND", 404);
+        }
+
+        // Extraemos companyName, cif, address
+        const { companyName, cif, address } = matchedData(req, { locations: ["body"] });
+
+        if (user.isAutonomo) {
+            user.name = companyName;
+            user.nif = cif;
+        } else {
+            user.companyName = companyName;
+            user.cif = cif;
+            user.address = address;
+        }
+
+        await user.save();
+        return res.send({ message: "Company data updated", user });
+    } catch (error) {
+        console.log(error);
+        handleHttpError(res, "ERROR_UPDATE_COMPANY");
+    }
+};
+
 module.exports = {
     getItem,
     getItems,
     createItem,
     updateItem,
     deleteItem,
-    onboardingCtrl
+    onboardingCtrl,
+    companyCtrl
 };
