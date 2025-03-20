@@ -102,9 +102,9 @@ POST http://localhost:3000/api/auth/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "name": "Guillermo",
+  "name": "Juan Pérezaaa",
   "age": 40,
-  "email": "guillermo@example.com",
+  "email": "juan.perez.prueba@example.com",
   "password": "pass1234"
 }
 
@@ -129,7 +129,17 @@ Content-Type: application/json
  "password": "pass1234"
 }
 
-
 ###
 GET http://localhost:3000/api/tracks
 Authorization: {{authToken}}
+
+### Registro de usuario en SQL a través de la API
+POST http://localhost:3000/api/auth/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "age": 35,
+  "email": "johndoe@example.com",
+  "password": "password1234"
+}
