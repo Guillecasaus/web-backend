@@ -27,6 +27,7 @@ const updateImage = async (req, res) => {
         const pinataResponse = await uploadToPinata(fileBuffer, fileName)
         const ipfsFile = pinataResponse.IpfsHash
         const ipfs = `https://${process.env.PINATA_GATEWAY_URL}/ipfs/${ipfsFile}`
+        console.log("req.file.buffer length:", req.file.buffer.length);
 
     } catch (err) {
         console.log(err)
