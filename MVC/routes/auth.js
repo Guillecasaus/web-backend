@@ -32,6 +32,28 @@ const { registerCtrl, loginCtrl } = require("../controllers/auth");
 // Ruta para registrar
 router.post("/register", validatorRegister, registerCtrl);
 
+// * @openapi
+//  * /api/auth/login:
+//  *  post:
+//  *      tags:
+//  *      - User
+//  *      summary: "User login"
+//  *      description: Login a user
+//  *      requestBody:
+//  *          content:
+//  *              application/json:
+//  *                  schema:
+//  *                      $ref: "#/components/schemas/login"
+//  *      responses:
+//  *          '200':
+//  *              description: Returns the token
+//  *          '401':
+//  *              description: Validation error
+//  *      security:
+//  *          - bearerAuth: []
+//  */
+
+
 // Ruta para login
 router.post("/login", validatorLogin, loginCtrl);
 
