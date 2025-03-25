@@ -129,19 +129,18 @@ const companyCtrl = async (req, res) => {
     }
 };
 
-const getMeCtrl = async (req, res) => {
+const getUserByTokenCtrl = async (req, res) => {
     try {
-        const user = req.user; // authMiddleware asigna req.user
+        const user = req.user; // authMiddleware debe asignar req.user
         if (!user) {
             return handleHttpError(res, "USER_NOT_FOUND", 404);
         }
-
-        // Ocultamos la contraseña si la tienes en la instancia
+        // Ocultamos la contraseña si es necesario
         user.password = undefined;
         res.send({ user });
     } catch (error) {
-        console.log(error);
-        handleHttpError(res, "ERROR_GET_ME");
+        console.error(error);
+        handleHttpError(res, "ERROR_GET_USER_BY_TOKEN");
     }
 };
 
@@ -153,5 +152,5 @@ module.exports = {
     deleteItem,
     onboardingCtrl,
     companyCtrl,
-    getMeCtrl
+    getUserByTokenCtrl
 };
