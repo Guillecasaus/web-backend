@@ -1,39 +1,34 @@
-// controllers/auth.js
 const { matchedData } = require("express-validator");
-const { encrypt, compare } = require("../utils/handlePassword");
 const { usersModel } = require("../models");
+const { encrypt, compare } = require("../utils/handlePassword");
 const { tokenSign } = require("../utils/handleJwt");
 const { handleHttpError } = require("../utils/handleError");
-const { sendEmail } = require('../utils/handleMails')
+
+// Función para generar un código de 6 dígitos
+const generateCode = () => Math.floor(100000 + Math.random() * 900000).toString();
 
 const registerCtrl = async (req, res) => {
     try {
-        // Filtramos los datos con express-validator
         const body = matchedData(req);
-
-        // Encriptamos la contraseña
+        // Verificar email duplicado, cifrar password, etc.
         const password = await encrypt(body.password);
-        const bodyWithPassword = { ...body, password };
+        const code = generateCode(); // Función que genera el código de 6 dígitos
+        const userData = {
+            ...body,
+            password,
+            verificationCode: code, // Guarda el código en la BD
+            attempts: 3,
+            status: "pending",
+            role: "user"
+        };
 
-        // Guardamos el usuario en la base de datos
-        const dataUser = await usersModel.create(bodyWithPassword);
-
-        // Ocultamos el password en la respuesta
+        const dataUser = await usersModel.create(userData);
         dataUser.set("password", undefined, { strict: false });
 
-        // Generamos el token
         const token = await tokenSign(dataUser);
 
-        // Enviar correo de bienvenida
-        await sendEmail({
-            subject: "Welcome to our platform",
-            text: "You have successfully registered in our platform",
-            from: process.env.EMAIL,
-            to: body.email
-        });
-
-        // Devolver la respuesta con el token y el usuario
-        res.send({ token, user: dataUser });
+        // Para pruebas, puedes incluir el código en la respuesta (pero en producción no se debe hacer)
+        res.send({ token, user: dataUser, verificationCode: code });
     } catch (error) {
         console.log(error);
         handleHttpError(res, "ERROR_REGISTER_USER");
@@ -66,4 +61,45 @@ const loginCtrl = async (req, res) => {
     }
 }
 
-module.exports = { registerCtrl, loginCtrl };
+const validateEmailCtrl = async (req, res) => {
+    try {
+        const user = req.user; // El middleware authMiddleware te adjunta el usuario en req.user
+        if (!user) {
+            return handleHttpError(res, "USER_NOT_FOUND", 404);
+        }
+
+        const { code } = matchedData(req);
+
+        // Comprobamos si el código coincide
+        if (user.verificationCode === code) {
+            // Si coincide, marcamos el status como "verified"
+            user.status = "verified";
+            await user.save();
+            return res.send({ message: "Email verified successfully" });
+        } else {
+            // Si el código no coincide, restamos intentos
+            user.attempts -= 1;
+
+            // Si ya no quedan intentos, podrías bloquear al usuario o devolver un error especial
+            if (user.attempts <= 0) {
+                // Podrías marcarlo como "blocked", o borrar el user, etc.
+                user.status = "blocked";
+                await user.save();
+                return res.status(400).json({ error: "MAX_ATTEMPTS_EXCEEDED. User blocked." });
+            }
+
+            // Guardamos la disminución de attempts
+            await user.save();
+            return res.status(400).json({
+                error: "Invalid verification code",
+                attemptsLeft: user.attempts
+            });
+        }
+    } catch (error) {
+        console.log(error);
+        handleHttpError(res, "ERROR_EMAIL_VALIDATION");
+    }
+};
+
+
+module.exports = { registerCtrl, loginCtrl, validateEmailCtrl };
