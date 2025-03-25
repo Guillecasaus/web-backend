@@ -109,13 +109,13 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:3000/api/auth/
+POST http://localhost:3000/api/auth/register
 Content-Type: application/json
 
 {
-  "name": "Test User",
+  "name": "TestPrueba",
   "age": 25,
-  "email": "guille.casaus@gmail.com",
+  "email": "prueba.prueba@gmail.com",
   "password": "pass1234"
 }
 
