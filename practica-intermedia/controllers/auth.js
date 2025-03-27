@@ -88,7 +88,6 @@ const validateEmailCtrl = async (req, res) => {
 
             // Si ya no quedan intentos, podrías bloquear al usuario o devolver un error especial
             if (user.attempts <= 0) {
-                // Podrías marcarlo como "blocked", o borrar el user, etc.
                 user.status = "blocked";
                 await user.save();
                 return res.status(400).json({ error: "MAX_ATTEMPTS_EXCEEDED. User blocked." });
@@ -123,6 +122,7 @@ const recoverPasswordCtrl = async (req, res) => {
         user.resetTokenExpires = expires;
         await user.save();
 
+        // Enviar correo al usuario con el token o un enlace
         res.send({ message: "Check your email for reset instructions" });
     } catch (error) {
         console.error(error);
@@ -130,4 +130,32 @@ const recoverPasswordCtrl = async (req, res) => {
     }
 };
 
-module.exports = { registerCtrl, loginCtrl, validateEmailCtrl, recoverPasswordCtrl };
+const resetPasswordCtrl = async (req, res) => {
+    try {
+        const { token, newPassword } = req.body;
+        const user = await usersModel.findOne({
+            resetToken: token,
+            resetTokenExpires: { $gt: Date.now() }
+        });
+
+        if (!user) {
+            return handleHttpError(res, "INVALID_OR_EXPIRED_TOKEN", 400);
+        }
+
+        // Encriptar la nueva contraseña
+        const hashedPassword = await encrypt(newPassword);
+        user.password = hashedPassword;
+
+        // Limpiar el token para que no se reutilice
+        user.resetToken = undefined;
+        user.resetTokenExpires = undefined;
+
+        await user.save();
+        res.send({ message: "Password reset successfully" });
+    } catch (error) {
+        console.error(error);
+        handleHttpError(res, "ERROR_RESET_PASSWORD");
+    }
+};
+
+module.exports = { registerCtrl, loginCtrl, validateEmailCtrl, recoverPasswordCtrl, resetPasswordCtrl };
