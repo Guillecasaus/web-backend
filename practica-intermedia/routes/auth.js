@@ -8,7 +8,7 @@ router.post("/register", validatorRegister, registerCtrl);
 router.post("/login", validatorLogin, loginCtrl);
 router.put("/validate", authMiddleware, validatorEmailValidation, validateEmailCtrl);
 router.post("/recover-password", recoverPasswordCtrl);
-router.post("/reset-password", resetPasswordCtrl);
+router.post("/recover-password/reset", resetPasswordCtrl);
 router.get("/recover-password/verify", verifyResetTokenCtrl);
 
 module.exports = router;
