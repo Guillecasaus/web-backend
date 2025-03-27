@@ -144,6 +144,29 @@ const getUserByTokenCtrl = async (req, res) => {
     }
 };
 
+const deleteUserByTokenCtrl = async (req, res) => {
+    try {
+        const user = req.user;
+        if (!user) {
+            return handleHttpError(res, "USER_NOT_FOUND", 404);
+        }
+
+        const { soft } = req.query;
+        if (soft === "false") {
+            usersModel.findByIdAndDelete(user._id);
+            return res.send({ message: "User hard-deleted successfully" });
+        } else {
+            user.deleted = true;
+            await user.save();
+            return res.send({ message: "User soft-deleted successfully", user });
+        }
+    } catch (error) {
+        console.error(error);
+        handleHttpError(res, "ERROR_DELETE_USER_BY_TOKEN");
+    }
+};
+
+
 module.exports = {
     getItem,
     getItems,
@@ -152,5 +175,6 @@ module.exports = {
     deleteItem,
     onboardingCtrl,
     companyCtrl,
-    getUserByTokenCtrl
+    getUserByTokenCtrl,
+    deleteUserByTokenCtrl
 };
