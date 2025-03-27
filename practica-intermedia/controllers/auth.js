@@ -3,6 +3,7 @@ const { usersModel } = require("../models");
 const { encrypt, compare } = require("../utils/handlePassword");
 const { tokenSign } = require("../utils/handleJwt");
 const { handleHttpError } = require("../utils/handleError");
+const { generateResetToken } = require("../utils/handleResetToken");
 
 // Función para generar un código de 6 dígitos
 const generateCode = () => Math.floor(100000 + Math.random() * 900000).toString();
@@ -106,5 +107,27 @@ const validateEmailCtrl = async (req, res) => {
     }
 };
 
+const recoverPasswordCtrl = async (req, res) => {
+    try {
+        const { email } = req.body;
+        const user = await usersModel.findOne({ email });
+        if (!user) {
+            return handleHttpError(res, "USER_NOT_FOUND", 404);
+        }
 
-module.exports = { registerCtrl, loginCtrl, validateEmailCtrl };
+        // Generar token
+        const resetToken = generateResetToken();
+        const expires = Date.now() + 3600000;
+
+        user.resetToken = resetToken;
+        user.resetTokenExpires = expires;
+        await user.save();
+
+        res.send({ message: "Check your email for reset instructions" });
+    } catch (error) {
+        console.error(error);
+        handleHttpError(res, "ERROR_RECOVER_PASSWORD");
+    }
+};
+
+module.exports = { registerCtrl, loginCtrl, validateEmailCtrl, recoverPasswordCtrl };
