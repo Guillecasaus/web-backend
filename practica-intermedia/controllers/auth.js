@@ -158,4 +158,25 @@ const resetPasswordCtrl = async (req, res) => {
     }
 };
 
-module.exports = { registerCtrl, loginCtrl, validateEmailCtrl, recoverPasswordCtrl, resetPasswordCtrl };
+const verifyResetTokenCtrl = async (req, res) => {
+    try {
+        const { token } = req.query;
+
+        const user = await usersModel.findOne({
+            resetToken: token,
+            resetTokenExpires: { $gt: Date.now() }
+        });
+
+        if (!user) {
+            return handleHttpError(res, "INVALID_OR_EXPIRED_TOKEN", 400);
+        }
+
+        res.send({ message: "Token is valid" });
+    } catch (error) {
+        console.error(error);
+        handleHttpError(res, "ERROR_VERIFY_RESET_TOKEN");
+    }
+};
+
+
+module.exports = { registerCtrl, loginCtrl, validateEmailCtrl, recoverPasswordCtrl, resetPasswordCtrl, verifyResetTokenCtrl };

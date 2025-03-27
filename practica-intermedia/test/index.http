@@ -85,5 +85,26 @@ DELETE http://localhost:3000/api/users/me?soft=false
 Authorization: {{authToken}}
 Content-Type: application/json
 
+### Solicitar recuperación de contraseña
+POST http://localhost:3000/api/auth/recover-password
+Content-Type: application/json
+
+{
+  "email": "usuarioeliminar@example.com"
+}
+
+### Verificar token de recuperación
+GET http://localhost:3000/api/auth/recover-password/verify?token=90cce6665cdde3c52acf347487ed41b154ddcb86
+
+
+### Cambiar contraseña con el token
+POST http://localhost:3000/api/auth/recover-password/reset
+Content-Type: application/json
+
+{
+  "token": "90cce6665cdde3c52acf347487ed41b154ddcb86",
+  "newPassword": "nuevaPassword123"
+}
+
 
 
