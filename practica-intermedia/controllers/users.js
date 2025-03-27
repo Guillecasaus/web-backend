@@ -153,11 +153,10 @@ const deleteUserByTokenCtrl = async (req, res) => {
 
         const { soft } = req.query;
         if (soft === "false") {
-            usersModel.findByIdAndDelete(user._id);
+            await usersModel.findByIdAndDelete(user._id);
             return res.send({ message: "User hard-deleted successfully" });
         } else {
-            user.deleted = true;
-            await user.save();
+            await user.delete();
             return res.send({ message: "User soft-deleted successfully", user });
         }
     } catch (error) {
@@ -165,7 +164,6 @@ const deleteUserByTokenCtrl = async (req, res) => {
         handleHttpError(res, "ERROR_DELETE_USER_BY_TOKEN");
     }
 };
-
 
 module.exports = {
     getItem,

@@ -1,13 +1,13 @@
-@authToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RiMGZkOWFmZWI0NTBkMWYyN2NiZWIiLCJpYXQiOjE3NDI5MDE0OTEsImV4cCI6MTc0MjkwODY5MX0.Dl-L_05ImKyehA1ih3gMeNI0wdIVT9zkvCpQZKv5aCQ
+@authToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2U1MjQ4MTc2NWQwZTljMGY3NGEwZjMiLCJpYXQiOjE3NDMwNzAzNjcsImV4cCI6MTc0MzA3NzU2N30.ushQe2CoknXz0FaWMCHxrb6bsRfQ2ZendDhWgbjFGeI
 
 ### Registro de usuario
 POST http://localhost:3000/api/auth/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "name": "Guillermo",
+  "name": "Usuario eliminar",
   "age": 20,
-  "email": "guillermo@example.com",
+  "email": "usuarioeliminar@example.com",
   "password": "pass1234"
 }
 
@@ -29,7 +29,7 @@ POST http://localhost:3000/api/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "guillermo@example.com",
+  "email": "usuarioeliminar@example.com",
   "password": "pass1234"
 }
 
@@ -41,11 +41,6 @@ Authorization: {{authToken}}
 {
   "code": "965510"
 }
-
-### Obtener usuario a partir del token JWT
-GET http://localhost:3000/api/users/me
-Authorization: {{authToken}}
-
 
 ### Onboarding (actualizar datos personales)
 PUT http://localhost:3000/api/users/onboarding
@@ -79,6 +74,16 @@ Content-Type: image/jpeg
 
 < ../logo.jpg
 --boundary--
+
+
+### Obtener usuario a partir del token JWT
+GET http://localhost:3000/api/users/me
+Authorization: {{authToken}}
+
+### DELETE usuario (hard delete)
+DELETE http://localhost:3000/api/users/me?soft=false
+Authorization: {{authToken}}
+Content-Type: application/json
 
 
 
