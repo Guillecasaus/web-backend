@@ -1,4 +1,4 @@
-@authToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2U1MjQ4MTc2NWQwZTljMGY3NGEwZjMiLCJpYXQiOjE3NDMwNzAzNjcsImV4cCI6MTc0MzA3NzU2N30.ushQe2CoknXz0FaWMCHxrb6bsRfQ2ZendDhWgbjFGeI
+@authToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2U1MjUzZTc2NWQwZTljMGY3NGEwZmEiLCJpYXQiOjE3NDMwNzA1MjYsImV4cCI6MTc0MzA3NzcyNn0.LjpeZCkA6sEc-tWYDZ55Wc-V97mBEgwVDOaxc9bm7aA
 
 ### Registro de usuario
 POST http://localhost:3000/api/auth/register HTTP/1.1
@@ -39,7 +39,7 @@ Content-Type: application/json
 Authorization: {{authToken}}
 
 {
-  "code": "965510"
+  "code": "515612"
 }
 
 ### Onboarding (actualizar datos personales)

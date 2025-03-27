@@ -13,6 +13,8 @@ const UserSchema = new mongoose.Schema(
         isAutonomo: { type: Boolean, default: false },
         email: { type: String, required: true, unique: true },
         password: { type: String, required: true, select: false },
+        resetToken: { type: String },
+        resetTokenExpires: { type: Date },
         role: {
             type: String,
             enum: ["user", "admin"], // es el enum de SQL
