@@ -69,31 +69,34 @@ const loginCtrl = async (req, res) => {
 
 const validateEmailCtrl = async (req, res) => {
     try {
-        const user = req.user; // El middleware authMiddleware te adjunta el usuario en req.user
+        const user = req.user;
+
         if (!user) {
             return handleHttpError(res, "USER_NOT_FOUND", 404);
         }
 
+        // Boqueo si el usuario ya está en estado "blocked"
+        if (user.status === "blocked") {
+            return res.status(403).json({ error: "USER_BLOCKED. Please request a new verification code." });
+        }
+
         const { code } = matchedData(req);
 
-        // Comprobamos si el código coincide
         if (user.verificationCode === code) {
-            // Si coincide, marcamos el status como "verified"
             user.status = "verified";
+            user.verificationCode = undefined;
+            user.attempts = 3;
             await user.save();
             return res.send({ message: "Email verified successfully" });
         } else {
-            // Si el código no coincide, restamos intentos
             user.attempts -= 1;
 
-            // Si ya no quedan intentos, podrías bloquear al usuario o devolver un error especial
             if (user.attempts <= 0) {
                 user.status = "blocked";
                 await user.save();
                 return res.status(400).json({ error: "MAX_ATTEMPTS_EXCEEDED. User blocked." });
             }
 
-            // Guardamos la disminución de attempts
             await user.save();
             return res.status(400).json({
                 error: "Invalid verification code",
@@ -105,6 +108,35 @@ const validateEmailCtrl = async (req, res) => {
         handleHttpError(res, "ERROR_EMAIL_VALIDATION");
     }
 };
+
+const resendVerificationCodeCtrl = async (req, res) => {
+    try {
+        const user = await usersModel.findById(req.user._id);
+
+        if (!user) {
+            return handleHttpError(res, "USER_NOT_FOUND", 404);
+        }
+
+        const newCode = generateCode();
+        console.log("Nuevo código generado:", newCode);
+
+        user.verificationCode = newCode;
+        user.attempts = 3;
+        user.status = "pending";
+
+        await user.save();
+
+        return res.send({
+            message: "Verification code resent. Check your email.",
+            verificationCode: newCode
+        });
+    } catch (error) {
+        console.error(error);
+        handleHttpError(res, "ERROR_RESEND_VERIFICATION_CODE");
+    }
+};
+
+
 
 const recoverPasswordCtrl = async (req, res) => {
     try {
@@ -178,4 +210,4 @@ const verifyResetTokenCtrl = async (req, res) => {
     }
 };
 
-module.exports = { registerCtrl, loginCtrl, validateEmailCtrl, recoverPasswordCtrl, resetPasswordCtrl, verifyResetTokenCtrl };
+module.exports = { registerCtrl, loginCtrl, validateEmailCtrl, recoverPasswordCtrl, resetPasswordCtrl, verifyResetTokenCtrl, resendVerificationCodeCtrl };

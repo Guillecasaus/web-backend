@@ -1,13 +1,12 @@
-@authToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2U4MDQzMGFjZGQwOTQ5ZTZlZTgwZDgiLCJpYXQiOjE3NDMyNTg2NzIsImV4cCI6MTc0MzI2NTg3Mn0.ZKQR8cShlRn1I5gCh2VY6rPvM-MyV3C_28Nwl2Fz3QM
-
+@authToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2U4MGRkMjhiNWU3YTAxMDA0OGI4NjAiLCJpYXQiOjE3NDMyNjExMzgsImV4cCI6MTc0MzI2ODMzOH0.qQHO45-zUy4blsKd_EQ3XHvsZR9PvxBdePRjc2ZWsqY
 ### Registro de usuario
 POST http://localhost:3000/api/auth/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "name": "Usuario eliminar",
+  "name": "Usuarioaa",
   "age": 20,
-  "email": "usuarioeliminar@example.com",
+  "email": "aaaa@example.com",
   "password": "pass1234"
 }
 
@@ -17,10 +16,11 @@ POST http://localhost:3000/api/auth/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "name": "Usuario autónomo",
+  "name": "Usuario prueba",
   "age": 20,
-  "email": "usuario@gmail.com",
-  "password": "pass1234"
+  "email": "usuarioprueba@gmail.com",
+  "password": "pass1234",
+  "role": "autonomo"
 }
 
 
@@ -39,8 +39,13 @@ Content-Type: application/json
 Authorization: {{authToken}}
 
 {
-  "code": "515612"
+  "code": "829133"
 }
+
+### Reenviar código de verificación
+POST http://localhost:3000/api/auth/resend-code
+Authorization: Bearer {{authToken}}
+
 
 ### Onboarding (actualizar datos personales)
 PUT http://localhost:3000/api/users/onboarding

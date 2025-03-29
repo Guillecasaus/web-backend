@@ -20,9 +20,9 @@ const UserSchema = new mongoose.Schema(
             enum: ["user", "admin", "guest"], // es el enum de SQL
             default: "user"
         },
-        verificationCode: { type: String, required: true },
+        verificationCode: { type: String },
         attempts: { type: Number, default: 3 },
-        status: { type: String, enum: ["pending", "verified"], default: "pending" }
+        status: { type: String, enum: ["pending", "verified", "blocked"], default: "pending" }
     },
     {
         timestamps: true,

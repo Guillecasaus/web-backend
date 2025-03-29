@@ -13,7 +13,7 @@ const validatorCreateItem = [
         .isEmail().withMessage('Email must be valid'),
     check('password')
         .notEmpty().withMessage('Password is required')
-        .isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
+        .isLength({ min: 8 }).withMessage('Password must be at least 8 characters long'),
     check('role')
         .optional()
         .isIn(['user', 'admin', 'guest']).withMessage('Role must be either user or admin'),
