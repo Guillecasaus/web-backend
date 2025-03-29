@@ -1,4 +1,4 @@
-@authToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2U1MjUzZTc2NWQwZTljMGY3NGEwZmEiLCJpYXQiOjE3NDMwNzA1MjYsImV4cCI6MTc0MzA3NzcyNn0.LjpeZCkA6sEc-tWYDZ55Wc-V97mBEgwVDOaxc9bm7aA
+@authToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2U4MDQzMGFjZGQwOTQ5ZTZlZTgwZDgiLCJpYXQiOjE3NDMyNTg2NzIsImV4cCI6MTc0MzI2NTg3Mn0.ZKQR8cShlRn1I5gCh2VY6rPvM-MyV3C_28Nwl2Fz3QM
 
 ### Registro de usuario
 POST http://localhost:3000/api/auth/register HTTP/1.1
@@ -17,9 +17,9 @@ POST http://localhost:3000/api/auth/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "name": "Guillermo autonomo",
+  "name": "Usuario autónomo",
   "age": 20,
-  "email": "guillermo@gmail.com",
+  "email": "usuario@gmail.com",
   "password": "pass1234"
 }
 
@@ -30,7 +30,7 @@ Content-Type: application/json
 
 {
   "email": "usuarioeliminar@example.com",
-  "password": "pass1234"
+  "password": "nuevaPassword123"
 }
 
 ### Validación de email
@@ -105,6 +105,18 @@ Content-Type: application/json
   "token": "90cce6665cdde3c52acf347487ed41b154ddcb86",
   "newPassword": "nuevaPassword123"
 }
+
+### Invitar a un compañero
+POST http://localhost:3000/api/users/invite
+Authorization: {{authToken}}
+Content-Type: application/json
+
+{
+  "name": "Compañero Invitado",
+  "email": "invitado@empresa.com",
+  "password": "guest1234"
+}
+
 
 
 

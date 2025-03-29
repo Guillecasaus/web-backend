@@ -9,6 +9,12 @@ const express = require("express")
 const router = express.Router()
 const { handleHttpError } = require("../utils/handleError");
 const { matchedData } = require("express-validator");
+const { encrypt } = require("../utils/handlePassword");
+const { tokenSign } = require("../utils/handleJwt");
+
+
+// Función para generar un código de 6 dígitos
+const generateCode = () => Math.floor(100000 + Math.random() * 900000).toString();
 
 const getItem = async (req, res) => {
     try {
@@ -165,6 +171,45 @@ const deleteUserByTokenCtrl = async (req, res) => {
     }
 };
 
+const inviteUserCtrl = async (req, res) => {
+    try {
+        const inviter = req.user;
+        if (!inviter || !inviter.companyName || !inviter.cif) {
+            return handleHttpError(res, "INVITER_MISSING_COMPANY", 403);
+        }
+
+        const body = matchedData(req);
+        const existingUser = await usersModel.findOne({ email: body.email });
+        if (existingUser) {
+            return handleHttpError(res, "EMAIL_ALREADY_EXISTS", 409);
+        }
+
+        const passwordHash = await encrypt(body.password);
+        const code = generateCode();
+        const invitedUser = await usersModel.create({
+            name: body.name,
+            email: body.email,
+            password: passwordHash,
+            role: "guest",
+            companyName: inviter.companyName,
+            cif: inviter.cif,
+            address: inviter.address,
+            isAutonomo: false,
+            verificationCode: code,
+            attempts: 3,
+            status: "verified"
+        });
+
+        invitedUser.set("password", undefined, { strict: false });
+        const token = await tokenSign(invitedUser);
+
+        res.send({ message: "Guest invited successfully", user: invitedUser, token });
+    } catch (err) {
+        console.error(err);
+        handleHttpError(res, "ERROR_INVITE_USER");
+    }
+};
+
 module.exports = {
     getItem,
     getItems,
@@ -174,5 +219,6 @@ module.exports = {
     onboardingCtrl,
     companyCtrl,
     getUserByTokenCtrl,
-    deleteUserByTokenCtrl
+    deleteUserByTokenCtrl,
+    inviteUserCtrl
 };

@@ -178,5 +178,4 @@ const verifyResetTokenCtrl = async (req, res) => {
     }
 };
 
-
 module.exports = { registerCtrl, loginCtrl, validateEmailCtrl, recoverPasswordCtrl, resetPasswordCtrl, verifyResetTokenCtrl };
