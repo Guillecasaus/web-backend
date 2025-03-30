@@ -17,7 +17,7 @@ const UserSchema = new mongoose.Schema(
         resetTokenExpires: { type: Date },
         role: {
             type: String,
-            enum: ["user", "admin", "guest"], // es el enum de SQL
+            enum: ["user", "admin", "guest", "autonomo"], // es el enum de SQL
             default: "user"
         },
         verificationCode: { type: String },

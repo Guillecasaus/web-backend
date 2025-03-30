@@ -118,8 +118,8 @@ const companyCtrl = async (req, res) => {
         // Extraemos companyName, cif, address
         const { companyName, cif, address } = matchedData(req, { locations: ["body"] });
 
-        if (user.isAutonomo) {
-            user.name = companyName;
+        if (user.role == "autonomo") {
+            user.companyName = user.name;
             user.nif = cif;
         } else {
             user.companyName = companyName;

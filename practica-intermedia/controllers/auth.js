@@ -17,23 +17,27 @@ const registerCtrl = async (req, res) => {
             return handleHttpError(res, "EMAIL_ALREADY_EXISTS", 409);
         }
 
-        const password = await encrypt(body.password);
+        const passwordHash = await encrypt(body.password);
         const code = generateCode();
         const userData = {
-            ...body,
-            password,
+            name: body.name,
+            email: body.email,
+            password: passwordHash,
             verificationCode: code,
             attempts: 3,
-            status: "pending",
-            role: "user"
+            status: "pending"
         };
 
-        const dataUser = await usersModel.create(userData);
-        dataUser.set("password", undefined, { strict: false });
+        if (body.role) {
+            userData.role = body.role;
+        }
 
-        const token = await tokenSign(dataUser);
+        const newUser = await usersModel.create(userData);
+        newUser.set("password", undefined, { strict: false });
 
-        res.send({ token, user: dataUser, verificationCode: code });
+        const token = await tokenSign(newUser);
+
+        res.send({ token, user: newUser, verificationCode: code });
     } catch (error) {
         console.log(error);
         return res.status(500).send({ error: "ERROR_REGISTER_USER" });
