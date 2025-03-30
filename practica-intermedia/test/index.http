@@ -1,4 +1,4 @@
-@authToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2U5N2QzM2U2NTQ0OTczMmViZWE1OWMiLCJpYXQiOjE3NDMzNTUxODcsImV4cCI6MTc0MzM2MjM4N30.BzUkmGhP5v3v3NTxDOo1GjM78iEIWf372nBMbM-Vg50
+@authToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2U5N2RiODc2YzE2OGQzODY3MTU1ODIiLCJpYXQiOjE3NDMzNTUzMjEsImV4cCI6MTc0MzM2MjUyMX0.7zea7iBQuCPZZaYYS5GK47qSq0l_hhfVL_Nm00HSSbo
 ### Registro de usuario
 POST http://localhost:3000/api/auth/register HTTP/1.1
 Content-Type: application/json
@@ -95,11 +95,8 @@ POST http://localhost:3000/api/auth/recover-password
 Content-Type: application/json
 
 {
-  "email": "usuarioeliminar@example.com"
+  "email": "prueba1@example.com"
 }
-
-### Verificar token de recuperación
-GET http://localhost:3000/api/auth/recover-password/verify?token=90cce6665cdde3c52acf347487ed41b154ddcb86
 
 
 ### Cambiar contraseña con el token
@@ -107,8 +104,8 @@ POST http://localhost:3000/api/auth/recover-password/reset
 Content-Type: application/json
 
 {
-  "token": "90cce6665cdde3c52acf347487ed41b154ddcb86",
-  "newPassword": "nuevaPassword123"
+  "token": "ac3681ed15b9dd704b212b413244e28b9962e52e",
+  "newPassword": "nuevaPassword12334"
 }
 
 ### Invitar a un compañero
