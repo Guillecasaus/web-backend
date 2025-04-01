@@ -9,31 +9,47 @@ const generateCode = () => Math.floor(100000 + Math.random() * 900000).toString(
 
 const registerCtrl = async (req, res) => {
     try {
+        // Filtramos los datos validados
         const body = matchedData(req);
-        // Verificar email duplicado, cifrar password, etc.
+
+        // Encriptamos la contraseña
         const password = await encrypt(body.password);
-        const code = generateCode(); // Función que genera el código de 6 dígitos
+        const bodyWithPassword = { ...body, password };
+
+        // Generamos el código de verificación (ejemplo: 6 dígitos)
+        const code = generateCode(); // Por ejemplo: () => Math.floor(100000 + Math.random() * 900000).toString();
+
+        // Preparamos los datos del usuario, agregando el código, intentos y estado "pending"
         const userData = {
-            ...body,
-            password,
-            verificationCode: code, // Guarda el código en la BD
+            ...bodyWithPassword,
+            verificationCode: code,
             attempts: 3,
-            status: "pending",
-            role: "user"
+            status: "pending"
         };
 
+        // Creamos el usuario en la BD
         const dataUser = await usersModel.create(userData);
         dataUser.set("password", undefined, { strict: false });
 
+        // Generamos el token JWT
         const token = await tokenSign(dataUser);
 
-        // Para pruebas, puedes incluir el código en la respuesta (pero en producción no se debe hacer)
-        res.send({ token, user: dataUser, verificationCode: code });
+        // Enviar correo con el código de verificación
+        await sendEmail({
+            subject: "Welcome to our platform - Verification Code",
+            text: `Your verification code is: ${code}`,
+            from: process.env.EMAIL,
+            to: body.email
+        });
+
+        // Devolver la respuesta con el token y el usuario
+        res.send({ token, user: dataUser });
     } catch (error) {
         console.log(error);
-        handleHttpError(res, "ERROR_REGISTER_USER");
+        return res.status(500).send({ error: "ERROR_REGISTER_USER" });
     }
 };
+
 
 const loginCtrl = async (req, res) => {
     try {
